@@ -1,0 +1,28 @@
+version: "2.1"
+services:
+  books-ms:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-docker-container:
+        condition: service_healthy
+    healthcheck:
+      test: "curl -I api:3000/api/ --fail"
+      interval: 20s
+      retries: 10
+
+  mysql-docker-container:
+    image: mysql:5.7
+    healthcheck:
+      test: "mysqlcheck -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE"
+      interval: 20s
+      timeout: 5s
+      retries: 15
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: books-db
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
