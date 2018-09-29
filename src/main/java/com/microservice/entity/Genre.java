@@ -5,48 +5,36 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "author")
+@Table(name = "genre")
 // @JsonIdentityInfo(
 //   generator = ObjectIdGenerators.PropertyGenerator.class, 
 //   property = "id")
-public class Author {
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String photoB64;
-    private String description;
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
         },
-        mappedBy = "authors")
+        mappedBy = "genres")
     @JsonIgnore
     private Set<Book> books = new HashSet<>();
 
     // Constructors
-    public Author() {
+    public Genre() {
     }
-
-    public Author(String name, String photoB64, String description) {
+    
+    public Genre(String name) {
         this.name = name;
-        this.photoB64 = photoB64;
-        this.description = description;
     }
-
+    
     // Getters and setters
-    public Set<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
-
     public Long getId() {
         return id;
     }
@@ -63,20 +51,12 @@ public class Author {
         this.name = name;
     }
 
-    public String getPhotoB64() {
-        return photoB64;
+    public Set<Book> getBooks() {
+        return books;
     }
 
-    public void setPhotoB64(String photoB64) {
-        this.photoB64 = photoB64;
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    
 }

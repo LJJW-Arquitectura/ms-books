@@ -1,10 +1,15 @@
 package com.microservice.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.*;
 
+
 @Entity
 @Table(name = "book")
+// @JsonIdentityInfo(
+//   generator = ObjectIdGenerators.PropertyGenerator.class, 
+//   property = "id")
 public class Book {
 
     @Id
@@ -12,27 +17,60 @@ public class Book {
     private Long id;
 
     private String title;
-    private String cover_b64;
-    // private String author;
+    private String coverB64;
     private String publisher;
-    private int pages;
+    private int numPages;
     private String isbn;
     private String plot;
-    private String[] genre; 
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+            })
+    @JoinTable(name = "book_authors",
+            joinColumns = { @JoinColumn(name = "book_id") },
+            inverseJoinColumns = { @JoinColumn(name = "author_id") })
+    @JsonIgnore
+    private Set<Author> authors = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                 CascadeType.PERSIST,
                 CascadeType.MERGE
             })
-    @JoinTable(name = "book_authors",
+    @JoinTable(name = "book_genres",
             joinColumns = { @JoinColumn(name = "book_id") },
-            inverseJoinColumns = { @JoinColumn(name = "author_id") })
-    private Set<Author> authors = new HashSet<>();
+            inverseJoinColumns = { @JoinColumn(name = "genre_id") })
+    @JsonIgnore
+    private Set<Genre> genres = new HashSet<>();
+    
+    // Constructors
+    public Book() {
+    }
+
+    public Book(String title, String coverB64, String publisher, int numPages, String isbn, String plot) {
+        this.title = title;
+        this.coverB64 = coverB64;
+        this.publisher = publisher;
+        this.numPages = numPages;
+        this.isbn = isbn;
+        this.plot = plot;
+    }
+
+    // Getters and setters    
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {    
+        this.genres = genres;
+    }
+
     public Set<Author> getAuthors() {
         return authors;
     }
-
+        
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
@@ -53,21 +91,21 @@ public class Book {
         this.title = title;
     }
 
-    public String getCover_b64() {
-        return cover_b64;
+    public String getCoverB64() {
+        return coverB64;
     }
 
-    public void setCover_b64(String cover_b64) {
-        this.cover_b64 = cover_b64;
+    public void setCoverB64(String coverB64) {
+        this.coverB64 = coverB64;
     }
 
-    // public String getAuthor() {
-    //     return author;
-    // }
+    public int getNumPages() {
+        return numPages;
+    }
 
-    // public void setAuthor(String author) {
-    //     this.author = author;
-    // }
+    public void setNumPages(int numPages) {
+        this.numPages = numPages;
+    }
 
     public String getPublisher() {
         return publisher;
@@ -75,14 +113,6 @@ public class Book {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
     }
 
     public String getIsbn() {
@@ -99,14 +129,6 @@ public class Book {
 
     public void setPlot(String plot) {
         this.plot = plot;
-    }
-
-    public String[] getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String[] genre) {
-        this.genre = genre;
     }
 
 }
