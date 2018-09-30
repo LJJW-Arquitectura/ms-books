@@ -1,0 +1,930 @@
+{
+	"info": {
+		"_postman_id": "8c38c3ce-1b1f-4eb8-8390-9128c43f40f1",
+		"name": "ms-books-docker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "All Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book by Title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/title/Harry Potter",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"title",
+								"Harry Potter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Genres of a book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1/genres",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1",
+								"genres"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Authors of a book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1/authors",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1",
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Harry Potter\",\n    \"publisher\": \"librospublisher\",\n    \"numPages\": 21,\n    \"isbn\": \"1233891825\",\n    \"plot\": \"magia\"\n}"
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Author",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1/addAuthor/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1",
+								"addAuthor",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Genre",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1/addGenre/",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1",
+								"addGenre",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Book",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Rayuela\",\n\t\"plot\": \"algo xd\"\n}"
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Author",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1/authors/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1",
+								"authors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Genre",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/books/1/genres/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"1",
+								"genres",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authors",
+			"item": [
+				{
+					"name": "All Authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/authors",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authors by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/authors/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Author by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/authors/name/wilson",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								"name",
+								"wilson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Books of a author",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/authors/1/books",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								"1",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Author",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"wilson\",\n\t\"description\": \"Hola\"\n}"
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/authors",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Author",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"daniel\",\n\t\"description\": \"Buen author\"\n}"
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/authors/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Author",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/authors/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Genre",
+			"item": [
+				{
+					"name": "All Genres",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/genres",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"genres"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Genre by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/genres/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"genres",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Genre by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/genres/name/comedy",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"genres",
+								"name",
+								"comedy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Books of a genre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/genres/1/books",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"genres",
+								"1",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Genre",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Comedy\",\n\t\"description\": \"Da risa xd\"\n}"
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/genres",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"genres"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update genre",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Comedy\",\n\t\"description\": \"Da mucha risa xd\"\n}"
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/genres/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"genres",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete genre",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/genres/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"genres",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Add cover book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"value": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/uploadFile/book/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"uploadFile",
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add photo author",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"value": "",
+									"type": "file"
+								}
+							]
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/uploadFile/author/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"uploadFile",
+								"author",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update cover book",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"value": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/updateFile/book/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"updateFile",
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update photo author",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"value": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/updateFile/author/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"updateFile",
+								"author",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove cover book",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/deleteFile/book/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"deleteFile",
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove photo author",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "192.168.99.100:8080/deleteFile/author/1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"100"
+							],
+							"port": "8080",
+							"path": [
+								"deleteFile",
+								"author",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

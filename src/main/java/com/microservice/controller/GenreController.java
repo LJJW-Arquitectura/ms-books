@@ -2,12 +2,15 @@ package com.microservice.controller;
 
 import com.microservice.entity.*;
 import com.microservice.repository.GenreRepository;
+import com.microservice.response.BookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/genres")
 public class GenreController {
 
     @Autowired
@@ -15,67 +18,97 @@ public class GenreController {
 
     /*@POST*/
     // Post genre
-    @PostMapping("/genres")
-    public Genre create(@RequestBody Genre genre)
+    @PostMapping("")
+    public ResponseEntity<?> create(@RequestBody Genre genre)
     {
-        return genreRepository.save(genre);
+        Genre newGenre = genreRepository.save(genre);
+        return new ResponseEntity<>(newGenre, HttpStatus.CREATED);
     }
 
 
 
     /*@GET*/
     // Get all genres
-    @GetMapping("/genres")
-    public List<Genre> findAll()
+    @GetMapping("")
+    public ResponseEntity<?> findAll()
     {
-        return genreRepository.findAll();
+        List<Genre> genres = genreRepository.findAll();
+        return new ResponseEntity<>(genres, HttpStatus.OK);
     }
 
     // Get genre by ID
-    @GetMapping("/genres/{genre_id}")
-    @ResponseBody
-    public Genre findByGenreId(@PathVariable("genre_id") Long genreId)
+    @GetMapping("/{genre_id}")
+    public ResponseEntity<?> findByGenreId(@PathVariable("genre_id") Long genreId)
     {
-        return genreRepository.findOne(genreId);
+        Genre genre = genreRepository.findOne(genreId);
+        if (genre == null) {
+            return new ResponseEntity("Genre with id " + genreId + " not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(genre, HttpStatus.OK);
+    }
+
+    // Get books of a genre by ID
+    @GetMapping("/{genre_id}/books")
+    @ResponseBody
+    public ResponseEntity<?> findBooks(@PathVariable("genre_id") Long genreId) 
+    {
+        Genre genre = genreRepository.findOne(genreId);
+        if (genre == null) {
+            return new ResponseEntity("Genre with id " + genreId + " not found", HttpStatus.NOT_FOUND);
+        }
+        
+        Set<Book> books = genre.getBooks();
+        List<BookResponse> response = new ArrayList<>();
+        for (Book book : books) {
+            response.add(new BookResponse(book));
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Get genre by name
-    @GetMapping("/genre/name/{genre_name}")
-    public List<Genre> findByGenreName(@PathVariable("genre_name") String genreName)
+    @GetMapping("/name/{genre_name}")
+    public ResponseEntity<?> findByGenreId(@PathVariable("genre_name") String genreName)
     {
-        return genreRepository.findByName(genreName);
-    }
-
-    // Get books of a gender by ID
-    @GetMapping("/genres/{genre_id}/books")
-    @ResponseBody
-    public Set<Book> findBooksByGenreId(@PathVariable("genre_id") Long genreId) 
-    {
-        Genre genre = genreRepository.findOne(genreId);
-        return genre.getBooks();
+        List<Genre> genres = genreRepository.findByName(genreName);
+        return new ResponseEntity<>(genres, HttpStatus.OK);
     }
 
 
-
+    
     /*@PUT*/
     // Put genre by id
-    @PutMapping("/genres/{genre_id}")
-    public Genre update(@PathVariable("genre_id") Long genreId, @RequestBody Genre genreObject)
+    @PutMapping("/{genre_id}")
+    public ResponseEntity<?> update(@PathVariable("genre_id") Long genreId, @RequestBody Genre genreObject)
     {
         Genre genre = genreRepository.findOne(genreId);
+        if (genre == null) {
+            return new ResponseEntity("Unable to upate. Genre with id " + genreId + " not found.", HttpStatus.NOT_FOUND);
+        }
         genre.setName(genreObject.getName());
-        return genreRepository.save(genre);
+        genre.setDescription(genreObject.getDescription());
+        genreRepository.save(genre);
+        return new ResponseEntity<>(genre, HttpStatus.OK);
     }
 
 
 
     /*@DELETE*/
     // Delete genre by id
-    @DeleteMapping("/genres/{genre_id}")
-    public List<Genre> delete(@PathVariable("genre_id") Long genreId)
+    @DeleteMapping("/{genre_id}")
+    public ResponseEntity<?> delete(@PathVariable("genre_id") Long genreId)
     {
-        genreRepository.delete(genreId);
-        return genreRepository.findAll();
+        Genre genre = genreRepository.findOne(genreId);
+        if (genre == null) {
+            return new ResponseEntity("Unable to delete.  Genre with id " + genreId + " not found.", HttpStatus.NOT_FOUND);
+        }
+        
+        if (genre.getBooks().isEmpty()) {
+            genreRepository.delete(genreId);
+        } else {
+            return new ResponseEntity("There are books associated to this genre", HttpStatus.CONFLICT);
+        }
+        
+        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
     }
 
 }

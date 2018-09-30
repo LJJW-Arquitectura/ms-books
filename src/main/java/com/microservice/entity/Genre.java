@@ -1,21 +1,23 @@
 package com.microservice.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import java.io.Serializable;
 import javax.persistence.*;
 import java.util.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "genre")
-// @JsonIdentityInfo(
-//   generator = ObjectIdGenerators.PropertyGenerator.class, 
-//   property = "id")
-public class Genre {
+public class Genre implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    @NotNull
     private String name;
+    @NotNull
+    private String description;
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
@@ -29,9 +31,10 @@ public class Genre {
     // Constructors
     public Genre() {
     }
-    
-    public Genre(String name) {
+
+    public Genre(String name, String description) {
         this.name = name;
+        this.description = description;
     }
     
     // Getters and setters
@@ -49,6 +52,14 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set<Book> getBooks() {

@@ -1,22 +1,22 @@
 package com.microservice.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import java.io.Serializable;
 import javax.persistence.*;
 import java.util.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "author")
-// @JsonIdentityInfo(
-//   generator = ObjectIdGenerators.PropertyGenerator.class, 
-//   property = "id")
-public class Author {
+public class Author implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
-    private String photoB64;
+    @NotNull
     private String description;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -27,18 +27,30 @@ public class Author {
         mappedBy = "authors")
     @JsonIgnore
     private Set<Book> books = new HashSet<>();
+    
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, optional = true)
+    @JoinColumn(name = "file_id", nullable = true)
+    @JsonIgnore
+    private DBFile photo;
 
     // Constructors
     public Author() {
     }
 
-    public Author(String name, String photoB64, String description) {
+    public Author(String name, String description) {
         this.name = name;
-        this.photoB64 = photoB64;
         this.description = description;
     }
 
-    // Getters and setters
+    // Getters and setters    
+    public DBFile getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(DBFile photo) {    
+        this.photo = photo;
+    }
+
     public Set<Book> getBooks() {
         return books;
     }
@@ -61,14 +73,6 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPhotoB64() {
-        return photoB64;
-    }
-
-    public void setPhotoB64(String photoB64) {
-        this.photoB64 = photoB64;
     }
 
     public String getDescription() {

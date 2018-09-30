@@ -1,26 +1,25 @@
 package com.microservice.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import java.io.Serializable;
 import javax.persistence.*;
 import java.util.*;
-
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "book")
-// @JsonIdentityInfo(
-//   generator = ObjectIdGenerators.PropertyGenerator.class, 
-//   property = "id")
-public class Book {
+public class Book implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String title;
-    private String coverB64;
     private String publisher;
     private int numPages;
     private String isbn;
+    @NotNull
     private String plot;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -45,20 +44,33 @@ public class Book {
     @JsonIgnore
     private Set<Genre> genres = new HashSet<>();
     
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, optional = true)
+    @JoinColumn(name = "file_id", nullable = true)
+    @JsonIgnore
+    private DBFile cover;
+    
     // Constructors
     public Book() {
     }
 
-    public Book(String title, String coverB64, String publisher, int numPages, String isbn, String plot) {
+    public Book(String title, String publisher, int numPages, String isbn, String plot) {
         this.title = title;
-        this.coverB64 = coverB64;
         this.publisher = publisher;
         this.numPages = numPages;
         this.isbn = isbn;
         this.plot = plot;
     }
 
-    // Getters and setters    
+    // Getters and setters  
+
+    public DBFile getCover() {
+        return cover;
+    }
+
+    public void setCover(DBFile cover) {
+        this.cover = cover;
+    }
+    
     public Set<Genre> getGenres() {
         return genres;
     }
@@ -89,14 +101,6 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getCoverB64() {
-        return coverB64;
-    }
-
-    public void setCoverB64(String coverB64) {
-        this.coverB64 = coverB64;
     }
 
     public int getNumPages() {
