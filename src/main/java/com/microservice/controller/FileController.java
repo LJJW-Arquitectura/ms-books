@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
+@RequestMapping("/books-ms/file")
 public class FileController {
 
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
@@ -40,8 +41,8 @@ public class FileController {
     
     /*POST*/
     // Post photo a auhtor
-    @PostMapping("/uploadFile/author/{author_id}")
-    public ResponseEntity<?> uploadAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {       
+    @PostMapping("/author/{author_id}")
+    public ResponseEntity uploadAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {       
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
             return new ResponseEntity("Book with id " + authorId + " not found.", HttpStatus.NOT_FOUND);
@@ -53,22 +54,21 @@ public class FileController {
         DBFile authorPhoto = DBFileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
+                .path("/books-ms/file/downloadFile/")
                 .path(authorPhoto.getId())
                 .toUriString();
 
         author.setPhoto(authorPhoto);
         authorPhoto.setAuthor(author);
-
         authorRepository.save(author);
         dbFileRepository.save(authorPhoto);
 
-        return new ResponseEntity<>(new UploadFileResponse(authorPhoto.getFileName(), fileDownloadUri, file.getContentType(), file.getSize()), HttpStatus.CREATED);
+        return new ResponseEntity(new UploadFileResponse(authorPhoto.getFileName(), fileDownloadUri, authorPhoto.getFileType(), authorPhoto.getFSize()), HttpStatus.CREATED);
     }
     
     // Post cover a book
-    @PostMapping("/uploadFile/book/{book_id}")
-    public ResponseEntity<?> uploadBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
+    @PostMapping("/book/{book_id}")
+    public ResponseEntity uploadBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
             return new ResponseEntity("Book with id " + bookId + " not found.", HttpStatus.NOT_FOUND);
@@ -80,17 +80,16 @@ public class FileController {
         DBFile bookCover = DBFileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
+                .path("/books-ms/file/downloadFile/")
                 .path(bookCover.getId())
                 .toUriString();
         
         book.setCover(bookCover);
         bookCover.setBook(book);
-
         bookRepository.save(book);
         dbFileRepository.save(bookCover);
 
-        return new ResponseEntity<>(new UploadFileResponse(bookCover.getFileName(), fileDownloadUri, file.getContentType(), file.getSize()), HttpStatus.CREATED);
+        return new ResponseEntity(new UploadFileResponse(bookCover.getFileName(), fileDownloadUri, bookCover.getFileType(), bookCover.getFSize()), HttpStatus.CREATED);
     }
 
     /*GET*/
@@ -108,8 +107,8 @@ public class FileController {
     
     /*PUT*/
     // Put cover a book
-    @PutMapping("/updateFile/book/{book_id}")
-    public ResponseEntity<?> updateBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
+    @PutMapping("/book/{book_id}")
+    public ResponseEntity updateBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
             return new ResponseEntity("Book with id " + bookId + " not found.", HttpStatus.NOT_FOUND);
@@ -127,22 +126,21 @@ public class FileController {
         DBFile bookCover = DBFileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
+                .path("/books-ms/file/downloadFile/")
                 .path(bookCover.getId())
                 .toUriString();
         
         book.setCover(bookCover);
         bookCover.setBook(book);
-
         bookRepository.save(book);
         dbFileRepository.save(bookCover);
 
-        return new ResponseEntity<>(new UploadFileResponse(bookCover.getFileName(), fileDownloadUri, file.getContentType(), file.getSize()), HttpStatus.CREATED);
+        return new ResponseEntity(new UploadFileResponse(bookCover.getFileName(), fileDownloadUri, bookCover.getFileType(), bookCover.getFSize()), HttpStatus.OK);
     }
 
     // Put photo a author
-    @PutMapping("/updateFile/author/{author_id}")
-    public ResponseEntity<?> updateAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {
+    @PutMapping("/author/{author_id}")
+    public ResponseEntity updateAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
             return new ResponseEntity("Author with id " + authorId + " not found.", HttpStatus.NOT_FOUND);
@@ -161,24 +159,23 @@ public class FileController {
         DBFile authorPhoto = DBFileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
+                .path("/books-ms/file/downloadFile/")
                 .path(authorPhoto.getId())
                 .toUriString();
         
         author.setPhoto(authorPhoto);
         authorPhoto.setAuthor(author);
-
         authorRepository.save(author);
         dbFileRepository.save(authorPhoto);
 
-        return new ResponseEntity<>(new UploadFileResponse(authorPhoto.getFileName(), fileDownloadUri, file.getContentType(), file.getSize()), HttpStatus.CREATED);
+        return new ResponseEntity(new UploadFileResponse(authorPhoto.getFileName(), fileDownloadUri, authorPhoto.getFileType(), authorPhoto.getFSize()), HttpStatus.OK);
     }
 
     
     /*DELETE*/
     // Delete cover a book
-    @DeleteMapping("/deleteFile/book/{book_id}")
-    public ResponseEntity<?> deleteBookCover(@PathVariable("book_id") Long bookId) {
+    @DeleteMapping("/book/{book_id}")
+    public ResponseEntity deleteBookCover(@PathVariable("book_id") Long bookId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
             return new ResponseEntity("Book with id " + bookId + " not found.", HttpStatus.NOT_FOUND);
@@ -196,12 +193,12 @@ public class FileController {
         dbFileRepository.save(cover);
         dbFileRepository.delete(cover);
         
-        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
     
     // Delete photo a author
-    @DeleteMapping("/deleteFile/author/{author_id}")
-    public ResponseEntity<?> deleteAuthorPhoto(@PathVariable("author_id") Long authorId) {
+    @DeleteMapping("/author/{author_id}")
+    public ResponseEntity deleteAuthorPhoto(@PathVariable("author_id") Long authorId) {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
             return new ResponseEntity("Author with id " + authorId + " not found.", HttpStatus.NOT_FOUND);
@@ -219,7 +216,7 @@ public class FileController {
         dbFileRepository.save(photo);
         dbFileRepository.delete(photo);
         
-        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
     
 }

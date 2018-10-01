@@ -1,6 +1,5 @@
 package com.microservice.response;
 
-import com.microservice.entity.Author;
 import com.microservice.entity.Book;
 import com.microservice.entity.DBFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,7 +19,7 @@ public class BookResponse {
         DBFile dbCover = book.getCover();
         UploadFileResponse coverResponse = null;
         if (dbCover != null) {
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(dbCover.getId()).toUriString();
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/books-ms/file/downloadFile/").path(dbCover.getId()).toUriString();
             coverResponse = new UploadFileResponse(dbCover.getFileName(), fileDownloadUri, dbCover.getFileType(), dbCover.getFSize());
         }
         

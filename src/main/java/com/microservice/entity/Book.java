@@ -19,7 +19,6 @@ public class Book implements Serializable{
     private String publisher;
     private int numPages;
     private String isbn;
-    @NotNull
     private String plot;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -62,7 +61,6 @@ public class Book implements Serializable{
     }
 
     // Getters and setters  
-
     public DBFile getCover() {
         return cover;
     }

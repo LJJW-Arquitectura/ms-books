@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping("/authors")
+@RequestMapping("/books-ms/authors")
 public class AuthorController {
 
     @Autowired
@@ -20,40 +20,40 @@ public class AuthorController {
     /*@POST*/
     // Post author
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody Author author)
+    public ResponseEntity createAuthor(@RequestBody Author author)
     {
-        Author newAuthor = authorRepository.save(author);
-        return new ResponseEntity<>(newAuthor, HttpStatus.CREATED);
+        authorRepository.save(author);
+        return new ResponseEntity(HttpStatus.CREATED);
     }    
 
     /*@GET*/
     // Get all authors
     @GetMapping("")
-    public ResponseEntity<?> findAll()
+    public ResponseEntity findAllAuthors()
     {
         List<Author> authors = authorRepository.findAll();
         List<AuthorResponse> response = new ArrayList<>();
         for (Author author : authors) {
             response.add(new AuthorResponse(author));
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
     // Get author by ID
     @GetMapping("/{author_id}")
-    public ResponseEntity<?> findByAuthorId(@PathVariable("author_id") Long authorId)
+    public ResponseEntity findByAuthorId(@PathVariable("author_id") Long authorId)
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
             return new ResponseEntity("Author with id " + authorId + " not found", HttpStatus.NOT_FOUND);
         }
         AuthorResponse response = new AuthorResponse(author);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
     
     // Get author by name
     @GetMapping("/name/{author_name}")
-    public ResponseEntity<?> findByAuthorId(@PathVariable("author_name") String authorName)
+    public ResponseEntity findByAuthorName(@PathVariable("author_name") String authorName)
     {
         List<Author> authors = authorRepository.findByName(authorName);
         List<AuthorResponse> response = new ArrayList<>();
@@ -66,7 +66,7 @@ public class AuthorController {
     // Get books of a author by ID
     @GetMapping("/{author_id}/books")
     @ResponseBody
-    public ResponseEntity<?> findBooks(@PathVariable("author_id") Long authorId) 
+    public ResponseEntity findBooksOfAuthor(@PathVariable("author_id") Long authorId) 
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
@@ -78,7 +78,7 @@ public class AuthorController {
         for (Book book : books) {
             response.add(new BookResponse(book));
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
 
@@ -86,7 +86,7 @@ public class AuthorController {
     /*@PUT*/
     // Put author by id
     @PutMapping("/{author_id}")
-    public ResponseEntity<?> update(@PathVariable("author_id") Long authorId, @RequestBody Author authorObject)
+    public ResponseEntity updateAuthor(@PathVariable("author_id") Long authorId, @RequestBody Author authorObject)
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
@@ -95,7 +95,7 @@ public class AuthorController {
         author.setName(authorObject.getName());
         author.setDescription(authorObject.getDescription());
         authorRepository.save(author);
-        return new ResponseEntity<>(author, HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
@@ -103,7 +103,7 @@ public class AuthorController {
     /*@DELETE*/
     // Delete author by id
     @DeleteMapping("/{author_id}")
-    public ResponseEntity<?> delete(@PathVariable("author_id") Long authorId)
+    public ResponseEntity deleteAuthor(@PathVariable("author_id") Long authorId)
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
@@ -116,7 +116,7 @@ public class AuthorController {
             return new ResponseEntity("There are books associated to this author", HttpStatus.CONFLICT);
         }
         
-        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

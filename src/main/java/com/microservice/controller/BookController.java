@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/books-ms/books")
 public class BookController {
 
     @Autowired
@@ -26,14 +26,14 @@ public class BookController {
     /*@POST*/
     // Post book
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody Book book)
+    public ResponseEntity createBook(@RequestBody Book book)
     {
-        Book newBook = bookRepository.save(book);
-        return new ResponseEntity<>(newBook, HttpStatus.CREATED);
+        bookRepository.save(book);
+        return new ResponseEntity(HttpStatus.CREATED);
     } 
 
-    @PostMapping("/{book_id}/addAuthor/{author_id}")
-    public ResponseEntity<?> AddAuthor(@PathVariable("book_id") Long bookId, @PathVariable("author_id") Long authorId)
+    @PostMapping("/{book_id}/author/{author_id}")
+    public ResponseEntity addAuthorToBook(@PathVariable("book_id") Long bookId, @PathVariable("author_id") Long authorId)
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
@@ -46,15 +46,14 @@ public class BookController {
   
         book.getAuthors().add(author);
         author.getBooks().add(book);
-
         bookRepository.save(book);
         authorRepository.save(author);
         
-        return new ResponseEntity<>(book.getAuthors(), HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PostMapping("/{book_id}/addGenre/{genre_id}")
-    public ResponseEntity<?> AddGenre(@PathVariable("book_id") Long bookId, @PathVariable("genre_id") Long genreId)
+    public ResponseEntity addGenreToBook(@PathVariable("book_id") Long bookId, @PathVariable("genre_id") Long genreId)
     {
         Genre genre = genreRepository.findOne(genreId);
         if (genre == null) {
@@ -67,55 +66,54 @@ public class BookController {
   
         book.getGenres().add(genre);
         genre.getBooks().add(book);
-
         bookRepository.save(book);
         genreRepository.save(genre);
         
-        return new ResponseEntity<>(book.getGenres(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
     /*@GET*/
     // Get all books
     @GetMapping("")
-    public ResponseEntity<?> findAll()
+    public ResponseEntity findAllBooks()
     {
         List<Book> books = bookRepository.findAll();
         List<BookResponse> response = new ArrayList<>();
         for (Book book : books) {
             response.add(new BookResponse(book));
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
     // Get book by ID
     @GetMapping("/{book_id}")
-    public ResponseEntity<?> findByBookId(@PathVariable("book_id") Long bookId)
+    public ResponseEntity findByBookId(@PathVariable("book_id") Long bookId)
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
             return new ResponseEntity("Book with id " + bookId + " not found", HttpStatus.NOT_FOUND);
         }
         BookResponse response = new BookResponse(book);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
     // Get book by title
     @GetMapping("/title/{book_title}")
-    public ResponseEntity<?> findByBookId(@PathVariable("book_title") String bookTitle)
+    public ResponseEntity findByBookTitle(@PathVariable("book_title") String bookTitle)
     {
         List<Book> books = bookRepository.findByTitle(bookTitle);
         List<BookResponse> response = new ArrayList<>();
         for (Book book : books) {
             response.add(new BookResponse(book));
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
     
     // Get authors of a book by ID
     @GetMapping("/{book_id}/authors")
     @ResponseBody
-    public ResponseEntity<?> findAuthors(@PathVariable("book_id") Long bookId) 
+    public ResponseEntity findAuthorsOfBook(@PathVariable("book_id") Long bookId) 
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
@@ -127,13 +125,13 @@ public class BookController {
         for (Author author : authors) {
             response.add(new AuthorResponse(author));
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
     // Get genres of a book by ID
     @GetMapping("/{book_id}/genres")
     @ResponseBody
-    public ResponseEntity<?> findGenres(@PathVariable("book_id") Long bookId) 
+    public ResponseEntity findGenresOfBook(@PathVariable("book_id") Long bookId) 
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
@@ -141,13 +139,13 @@ public class BookController {
         }
         
         Set<Genre> genres = book.getGenres();
-        return new ResponseEntity<>(genres, HttpStatus.OK);
+        return new ResponseEntity(genres, HttpStatus.OK);
     }
 
     /*@Put*/
     // Put book by id
     @PutMapping("/{book_id}")
-    public ResponseEntity<?> update(@PathVariable("book_id") Long bookId, @RequestBody Book bookObject)
+    public ResponseEntity updateBook(@PathVariable("book_id") Long bookId, @RequestBody Book bookObject)
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
@@ -159,13 +157,13 @@ public class BookController {
         book.setIsbn(bookObject.getIsbn());
         book.setPlot(bookObject.getPlot());
         bookRepository.save(book);
-        return new ResponseEntity<>(book, HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /*@DELETE*/
     // Delete book by id
     @DeleteMapping("/{book_id}")
-    public ResponseEntity<?> delete(@PathVariable("book_id") Long bookId)
+    public ResponseEntity deleteBook(@PathVariable("book_id") Long bookId)
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
@@ -174,13 +172,13 @@ public class BookController {
             bookRepository.delete(bookId);
         }
         
-        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
     // Delete author of a book
-    @DeleteMapping("/{book_id}/authors/{author_id}")
-    public ResponseEntity<?> DeleteAuthor(@PathVariable("book_id") Long bookId, @PathVariable("author_id") Long authorId)
+    @DeleteMapping("/{book_id}/author/{author_id}")
+    public ResponseEntity removeAuthorOfBook(@PathVariable("book_id") Long bookId, @PathVariable("author_id") Long authorId)
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
@@ -193,16 +191,15 @@ public class BookController {
   
         book.getAuthors().remove(author);
         author.getBooks().remove(book);
-
         bookRepository.save(book);
         authorRepository.save(author);
         
-        return new ResponseEntity<>(book.getAuthors(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // Delete genre of a book
-    @DeleteMapping("/{book_id}/genres/{genre_id}")
-    public ResponseEntity<?> DeleteGenre(@PathVariable("book_id") Long bookId, @PathVariable("genre_id") Long genreId)
+    @DeleteMapping("/{book_id}/genre/{genre_id}")
+    public ResponseEntity removeGenreOfBook(@PathVariable("book_id") Long bookId, @PathVariable("genre_id") Long genreId)
     {
         Genre genre = genreRepository.findOne(genreId);
         if (genre == null) {
@@ -215,11 +212,10 @@ public class BookController {
   
         book.getGenres().remove(genre);
         genre.getBooks().remove(book);
-
         bookRepository.save(book);
         genreRepository.save(genre);
         
-        return new ResponseEntity<>(book.getGenres(), HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

@@ -15,7 +15,7 @@ public class AuthorResponse {
         DBFile dbPhoto = author.getPhoto();
         UploadFileResponse photoResponse = null;
         if (dbPhoto != null) {
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(dbPhoto.getId()).toUriString();
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/books-ms/file/downloadFile/").path(dbPhoto.getId()).toUriString();
             photoResponse = new UploadFileResponse(dbPhoto.getFileName(), fileDownloadUri, dbPhoto.getFileType(), dbPhoto.getFSize());
         }
     

@@ -3,12 +3,12 @@ services:
   books-ms:
     build: .
     ports:
-      - "8080:8080"
+      - "3002:3002"
     depends_on:
       mysql-docker-container:
         condition: service_healthy
     healthcheck:
-      test: "curl -I api:3000/api/ --fail"
+      test: "curl -I books-ms:3002/books-ms/ --fail"
       interval: 20s
       retries: 10
 
