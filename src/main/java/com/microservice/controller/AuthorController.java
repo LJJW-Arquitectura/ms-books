@@ -4,6 +4,7 @@ import com.microservice.response.AuthorResponse;
 import com.microservice.entity.*;
 import com.microservice.repository.*;
 import com.microservice.response.BookResponse;
+import com.microservice.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -45,7 +46,7 @@ public class AuthorController {
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Author with id " + authorId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found"), HttpStatus.NOT_FOUND);
         }
         AuthorResponse response = new AuthorResponse(author);
         return new ResponseEntity(response, HttpStatus.OK);
@@ -60,7 +61,7 @@ public class AuthorController {
         for (Author author : authors) {
             response.add(new AuthorResponse(author));
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
     
     // Get books of a author by ID
@@ -70,7 +71,7 @@ public class AuthorController {
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Author with id " + authorId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found"), HttpStatus.NOT_FOUND);
         }
         
         Set<Book> books = author.getBooks();
@@ -90,7 +91,7 @@ public class AuthorController {
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Unable to upate. Author with id " + authorId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Unable to upate. Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
         author.setName(authorObject.getName());
         author.setDescription(authorObject.getDescription());
@@ -107,13 +108,13 @@ public class AuthorController {
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Unable to delete.  Author with id " + authorId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Unable to delete.  Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
         
         if (author.getBooks().isEmpty()) {
             authorRepository.delete(authorId);
         } else {
-            return new ResponseEntity("There are books associated to this author", HttpStatus.CONFLICT);
+            return new ResponseEntity(new ErrorResponse("There are books associated to this author"), HttpStatus.CONFLICT);
         }
         
         return new ResponseEntity(HttpStatus.OK);

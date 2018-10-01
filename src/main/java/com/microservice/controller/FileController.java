@@ -7,6 +7,7 @@ import com.microservice.response.UploadFileResponse;
 import com.microservice.repository.AuthorRepository;
 import com.microservice.repository.BookRepository;
 import com.microservice.repository.DBFileRepository;
+import com.microservice.response.ErrorResponse;
 import com.microservice.service.DBFileStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,10 +46,10 @@ public class FileController {
     public ResponseEntity uploadAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {       
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Book with id " + authorId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
         if (author.getPhoto() != null) {
-            return new ResponseEntity("This author alredy have a photo", HttpStatus.CONFLICT);
+            return new ResponseEntity(new ErrorResponse("This author alredy has a photo"), HttpStatus.CONFLICT);
         }
         
         DBFile authorPhoto = DBFileStorageService.storeFile(file);
@@ -71,10 +72,10 @@ public class FileController {
     public ResponseEntity uploadBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Book with id " + bookId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
         if (book.getCover() != null) {
-            return new ResponseEntity("This book alredy have a cover", HttpStatus.CONFLICT);
+            return new ResponseEntity(new ErrorResponse("This book alredy hass a cover"), HttpStatus.CONFLICT);
         }
         
         DBFile bookCover = DBFileStorageService.storeFile(file);
@@ -111,7 +112,7 @@ public class FileController {
     public ResponseEntity updateBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Book with id " + bookId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
         
         DBFile oldCover = dbFileRepository.findById(book.getCover().getId());
@@ -143,7 +144,7 @@ public class FileController {
     public ResponseEntity updateAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Author with id " + authorId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
         
         DBFile oldPhoto = dbFileRepository.findById(author.getPhoto().getId());
@@ -178,12 +179,12 @@ public class FileController {
     public ResponseEntity deleteBookCover(@PathVariable("book_id") Long bookId) {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Book with id " + bookId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
         
         DBFile cover = dbFileRepository.findById(book.getCover().getId());
         if (cover== null) {
-            return new ResponseEntity("This book dont have cover", HttpStatus.CONFLICT);
+            return new ResponseEntity(new ErrorResponse("This book dont have cover"), HttpStatus.CONFLICT);
         }
         
         // Delete from repository
@@ -201,12 +202,12 @@ public class FileController {
     public ResponseEntity deleteAuthorPhoto(@PathVariable("author_id") Long authorId) {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Author with id " + authorId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
         
         DBFile photo = dbFileRepository.findById(author.getPhoto().getId());
         if (photo== null) {
-            return new ResponseEntity("This author dont have photo", HttpStatus.CONFLICT);
+            return new ResponseEntity(new ErrorResponse("This author dont have photo"), HttpStatus.CONFLICT);
         }
         
         // Delete from repository

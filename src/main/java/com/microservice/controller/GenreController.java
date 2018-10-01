@@ -2,7 +2,7 @@ package com.microservice.controller;
 
 import com.microservice.entity.*;
 import com.microservice.repository.GenreRepository;
-import com.microservice.response.BookResponse;
+import com.microservice.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -38,11 +38,12 @@ public class GenreController {
 
     // Get genre by ID
     @GetMapping("/{genre_id}")
+    @ResponseBody
     public ResponseEntity findByGenreId(@PathVariable("genre_id") Long genreId)
     {
         Genre genre = genreRepository.findOne(genreId);
         if (genre == null) {
-            return new ResponseEntity("Genre with id " + genreId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Genre with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(genre, HttpStatus.OK);
     }
@@ -62,7 +63,7 @@ public class GenreController {
     {
         Genre genre = genreRepository.findOne(genreId);
         if (genre == null) {
-            return new ResponseEntity("Genre with id " + genreId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Genre with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
         
         Set<Book> books = genre.getBooks();
@@ -84,7 +85,7 @@ public class GenreController {
     {
         Genre genre = genreRepository.findOne(genreId);
         if (genre == null) {
-            return new ResponseEntity("Unable to upate. Genre with id " + genreId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Unable to upate. Genre with id " + genreId + " not found."), HttpStatus.NOT_FOUND);
         }
         genre.setName(genreObject.getName());
         genre.setDescription(genreObject.getDescription());
@@ -101,13 +102,13 @@ public class GenreController {
     {
         Genre genre = genreRepository.findOne(genreId);
         if (genre == null) {
-            return new ResponseEntity("Unable to delete.  Genre with id " + genreId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Unable to delete.  Genre with id " + genreId + " not found."), HttpStatus.NOT_FOUND);
         }
         
         if (genre.getBooks().isEmpty()) {
             genreRepository.delete(genreId);
         } else {
-            return new ResponseEntity("There are books associated to this genre", HttpStatus.CONFLICT);
+            return new ResponseEntity(new ErrorResponse("There are books associated to this genre"), HttpStatus.CONFLICT);
         }
         
         return new ResponseEntity(HttpStatus.OK);

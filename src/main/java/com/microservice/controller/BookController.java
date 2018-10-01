@@ -4,6 +4,7 @@ import com.microservice.entity.*;
 import com.microservice.response.BookResponse;
 import com.microservice.repository.*;
 import com.microservice.response.AuthorResponse;
+import com.microservice.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -37,11 +38,11 @@ public class BookController {
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Author with id " + authorId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found"), HttpStatus.NOT_FOUND);
         }
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Book with id " + authorId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + authorId + " not found"), HttpStatus.NOT_FOUND);
         }
   
         book.getAuthors().add(author);
@@ -57,11 +58,11 @@ public class BookController {
     {
         Genre genre = genreRepository.findOne(genreId);
         if (genre == null) {
-            return new ResponseEntity("Genre with id " + genreId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Genre with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Book with id " + genreId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
   
         book.getGenres().add(genre);
@@ -69,7 +70,7 @@ public class BookController {
         bookRepository.save(book);
         genreRepository.save(genre);
         
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
 
@@ -92,7 +93,7 @@ public class BookController {
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Book with id " + bookId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found"), HttpStatus.NOT_FOUND);
         }
         BookResponse response = new BookResponse(book);
         return new ResponseEntity(response, HttpStatus.OK);
@@ -117,7 +118,7 @@ public class BookController {
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Author with id " + bookId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Author with id " + bookId + " not found"), HttpStatus.NOT_FOUND);
         }
         
         Set<Author> authors = book.getAuthors();
@@ -135,7 +136,7 @@ public class BookController {
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Genre with id " + bookId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Genre with id " + bookId + " not found"), HttpStatus.NOT_FOUND);
         }
         
         Set<Genre> genres = book.getGenres();
@@ -149,7 +150,7 @@ public class BookController {
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Unable to upate. Book with id " + bookId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Unable to upate. Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
         book.setTitle(bookObject.getTitle());
         book.setPublisher(bookObject.getPublisher());
@@ -167,7 +168,7 @@ public class BookController {
     {
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Unable to delete.  Book with id " + bookId + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Unable to delete.  Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         } else {
             bookRepository.delete(bookId);
         }
@@ -182,11 +183,11 @@ public class BookController {
     {
         Author author = authorRepository.findOne(authorId);
         if (author == null) {
-            return new ResponseEntity("Author with id " + authorId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found"), HttpStatus.NOT_FOUND);
         }
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Book with id " + authorId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + authorId + " not found"), HttpStatus.NOT_FOUND);
         }
   
         book.getAuthors().remove(author);
@@ -194,7 +195,7 @@ public class BookController {
         bookRepository.save(book);
         authorRepository.save(author);
         
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     // Delete genre of a book
@@ -203,11 +204,11 @@ public class BookController {
     {
         Genre genre = genreRepository.findOne(genreId);
         if (genre == null) {
-            return new ResponseEntity("Genre with id " + genreId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Genre with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
         Book book = bookRepository.findOne(bookId);
         if (book == null) {
-            return new ResponseEntity("Book with id " + genreId + " not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ErrorResponse("Book with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
   
         book.getGenres().remove(genre);
