@@ -18,8 +18,13 @@ docker-compose up
 The microservice has an internal structure divided in the following way:
 
 Controller: REST API.
+
 Entity: Data model.
+
 Repository: Data access object.
+
 Service: Business Logic.
+
 Response: Auxiliary classes for API responses.
+
 Exception: Management of exceptions.
