@@ -53,7 +53,7 @@ public class BookController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PostMapping("/{book_id}/addGenre/{genre_id}")
+    @PostMapping("/{book_id}/genre/{genre_id}")
     public ResponseEntity addGenreToBook(@PathVariable("book_id") Long bookId, @PathVariable("genre_id") Long genreId)
     {
         Genre genre = genreRepository.findOne(genreId);

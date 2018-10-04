@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "8c38c3ce-1b1f-4eb8-8390-9128c43f40f1",
-		"name": "ms-books-docker",
+		"_postman_id": "4f4f01ec-ad12-4278-b3b5-e2891c6fe156",
+		"name": "ms-books-url",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -18,15 +18,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books",
+							"raw": "{{url}}:3002/books-ms/books",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books"
 							]
 						}
@@ -43,15 +41,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1",
+							"raw": "{{url}}:3002/books-ms/books/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1"
 							]
@@ -69,15 +65,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/title/Harry Potter",
+							"raw": "{{url}}:3002/books-ms/books/title/Harry Potter",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"title",
 								"Harry Potter"
@@ -96,15 +90,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1/genres",
+							"raw": "{{url}}:3002/books-ms/books/1/genres",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1",
 								"genres"
@@ -123,15 +115,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1/authors",
+							"raw": "{{url}}:3002/books-ms/books/1/authors",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1",
 								"authors"
@@ -155,15 +145,13 @@
 							"raw": "{\n    \"title\": \"Harry Potter\",\n    \"publisher\": \"librospublisher\",\n    \"numPages\": 21,\n    \"isbn\": \"1233891825\",\n    \"plot\": \"magia\"\n}"
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books",
+							"raw": "{{url}}:3002/books-ms/books",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books"
 							]
 						}
@@ -180,18 +168,16 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1/addAuthor/1",
+							"raw": "{{url}}:3002/books-ms/books/1/author/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1",
-								"addAuthor",
+								"author",
 								"1"
 							]
 						}
@@ -208,19 +194,17 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1/addGenre/",
+							"raw": "{{url}}:3002/books-ms/books/1/genre/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1",
-								"addGenre",
-								""
+								"genre",
+								"1"
 							]
 						}
 					},
@@ -241,15 +225,13 @@
 							"raw": "{\n\t\"title\": \"Rayuela\",\n\t\"plot\": \"algo xd\"\n}"
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1",
+							"raw": "{{url}}:3002/books-ms/books/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1"
 							]
@@ -267,15 +249,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1",
+							"raw": "{{url}}:3002/books-ms/books/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1"
 							]
@@ -293,15 +273,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1/authors/1",
+							"raw": "{{url}}:3002/books-ms/books/1/authors/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1",
 								"authors",
@@ -321,15 +299,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/books/1/genres/1",
+							"raw": "{{url}}:3002/books-ms/books/1/genres/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"books",
 								"1",
 								"genres",
@@ -354,15 +330,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/authors",
+							"raw": "{{url}}:3002/books-ms/authors",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"authors"
 							]
 						}
@@ -379,15 +353,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/authors/1",
+							"raw": "{{url}}:3002/books-ms/authors/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"authors",
 								"1"
 							]
@@ -405,15 +377,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/authors/name/wilson",
+							"raw": "{{url}}:3002/books-ms/authors/name/wilson",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"authors",
 								"name",
 								"wilson"
@@ -432,15 +402,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/authors/1/books",
+							"raw": "{{url}}:3002/books-ms/authors/1/books",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"authors",
 								"1",
 								"books"
@@ -464,15 +432,13 @@
 							"raw": "{\n\t\"name\": \"wilson\",\n\t\"description\": \"Hola\"\n}"
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/authors",
+							"raw": "{{url}}:3002/books-ms/authors",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"authors"
 							]
 						}
@@ -494,15 +460,13 @@
 							"raw": "{\n\t\"name\": \"daniel\",\n\t\"description\": \"Buen author\"\n}"
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/authors/1",
+							"raw": "{{url}}:3002/books-ms/authors/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"authors",
 								"1"
 							]
@@ -520,15 +484,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/authors/1",
+							"raw": "{{url}}:3002/books-ms/authors/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"authors",
 								"1"
 							]
@@ -551,15 +513,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/genres",
+							"raw": "{{url}}:3002/books-ms/genres",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"genres"
 							]
 						}
@@ -576,15 +536,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/genres/1",
+							"raw": "{{url}}:3002/books-ms/genres/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"genres",
 								"1"
 							]
@@ -602,15 +560,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/genres/name/comedy",
+							"raw": "{{url}}:3002/books-ms/genres/name/comedy",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"genres",
 								"name",
 								"comedy"
@@ -629,15 +585,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/genres/1/books",
+							"raw": "{{url}}:3002/books-ms/genres/1/books",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"genres",
 								"1",
 								"books"
@@ -661,15 +615,13 @@
 							"raw": "{\n\t\"name\": \"Comedy\",\n\t\"description\": \"Da risa xd\"\n}"
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/genres",
+							"raw": "{{url}}:3002/books-ms/genres",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"genres"
 							]
 						}
@@ -691,15 +643,13 @@
 							"raw": "{\n\t\"name\": \"Comedy\",\n\t\"description\": \"Da mucha risa xd\"\n}"
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/genres/1",
+							"raw": "{{url}}:3002/books-ms/genres/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"genres",
 								"1"
 							]
@@ -717,15 +667,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/genres/1",
+							"raw": "{{url}}:3002/books-ms/genres/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
+								"books-ms",
 								"genres",
 								"1"
 							]
@@ -754,16 +702,14 @@
 							]
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/uploadFile/book/1",
+							"raw": "{{url}}:3002/books-ms/file/book/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
-								"uploadFile",
+								"books-ms",
+								"file",
 								"book",
 								"1"
 							]
@@ -787,16 +733,14 @@
 							]
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/uploadFile/author/1",
+							"raw": "{{url}}:3002/books-ms/file/author/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
-								"uploadFile",
+								"books-ms",
+								"file",
 								"author",
 								"1"
 							]
@@ -820,16 +764,14 @@
 							]
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/updateFile/book/1",
+							"raw": "{{url}}:3002/books-ms/file/book/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
-								"updateFile",
+								"books-ms",
+								"file",
 								"book",
 								"1"
 							]
@@ -847,22 +789,20 @@
 							"formdata": [
 								{
 									"key": "file",
-									"type": "file",
-									"value": ""
+									"value": "",
+									"type": "file"
 								}
 							]
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/updateFile/author/1",
+							"raw": "{{url}}:3002/books-ms/file/author/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
-								"updateFile",
+								"books-ms",
+								"file",
 								"author",
 								"1"
 							]
@@ -880,16 +820,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/deleteFile/book/1",
+							"raw": "{{url}}:3002/books-ms/file/book/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
-								"deleteFile",
+								"books-ms",
+								"file",
 								"book",
 								"1"
 							]
@@ -907,16 +845,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "192.168.99.100:8080/deleteFile/author/1",
+							"raw": "{{url}}:3002/books-ms/file/author/1",
 							"host": [
-								"192",
-								"168",
-								"99",
-								"100"
+								"{{url}}"
 							],
-							"port": "8080",
+							"port": "3002",
 							"path": [
-								"deleteFile",
+								"books-ms",
+								"file",
 								"author",
 								"1"
 							]
