@@ -5,14 +5,14 @@ services:
     ports:
       - "3002:3002"
     depends_on:
-      mysql-docker-container:
+      books-db:
         condition: service_healthy
     healthcheck:
       test: "curl -I books-ms:3002/books-ms/ --fail"
       interval: 20s
       retries: 10
 
-  mysql-docker-container:
+  books-db:
     image: mysql:5.7
     healthcheck:
       test: "mysqlcheck -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE"
@@ -21,7 +21,7 @@ services:
       retries: 15
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: books-db
+      MYSQL_DATABASE: books-database
       MYSQL_USER: homestead
       MYSQL_PASSWORD: secret
     ports:
