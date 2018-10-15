@@ -41,7 +41,7 @@ public class GenreController {
     @ResponseBody
     public ResponseEntity findByGenreId(@PathVariable("genre_id") Long genreId)
     {
-        Genre genre = genreRepository.findOne(genreId);
+        Genre genre = genreRepository.getOne(genreId);
         if (genre == null) {
             return new ResponseEntity(new ErrorResponse("Genre with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
@@ -61,7 +61,7 @@ public class GenreController {
     @ResponseBody
     public ResponseEntity findBooksOfGenre(@PathVariable("genre_id") Long genreId) 
     {
-        Genre genre = genreRepository.findOne(genreId);
+        Genre genre = genreRepository.getOne(genreId);
         if (genre == null) {
             return new ResponseEntity(new ErrorResponse("Genre with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
@@ -83,7 +83,7 @@ public class GenreController {
     @PutMapping("/{genre_id}")
     public ResponseEntity updateGenre(@PathVariable("genre_id") Long genreId, @RequestBody Genre genreObject)
     {
-        Genre genre = genreRepository.findOne(genreId);
+        Genre genre = genreRepository.getOne(genreId);
         if (genre == null) {
             return new ResponseEntity(new ErrorResponse("Unable to upate. Genre with id " + genreId + " not found."), HttpStatus.NOT_FOUND);
         }
@@ -100,13 +100,13 @@ public class GenreController {
     @DeleteMapping("/{genre_id}")
     public ResponseEntity deleteGenre(@PathVariable("genre_id") Long genreId)
     {
-        Genre genre = genreRepository.findOne(genreId);
+        Genre genre = genreRepository.getOne(genreId);
         if (genre == null) {
             return new ResponseEntity(new ErrorResponse("Unable to delete.  Genre with id " + genreId + " not found."), HttpStatus.NOT_FOUND);
         }
         
         if (genre.getBooks().isEmpty()) {
-            genreRepository.delete(genreId);
+            genreRepository.deleteById(genreId);
         } else {
             return new ResponseEntity(new ErrorResponse("There are books associated to this genre"), HttpStatus.CONFLICT);
         }

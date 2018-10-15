@@ -44,7 +44,7 @@ public class FileController {
     // Post photo a auhtor
     @PostMapping("/author/{author_id}")
     public ResponseEntity uploadAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {       
-        Author author = authorRepository.findOne(authorId);
+        Author author = authorRepository.getOne(authorId);
         if (author == null) {
             return new ResponseEntity(new ErrorResponse("Book with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
@@ -70,7 +70,7 @@ public class FileController {
     // Post cover a book
     @PostMapping("/book/{book_id}")
     public ResponseEntity uploadBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
-        Book book = bookRepository.findOne(bookId);
+        Book book = bookRepository.getOne(bookId);
         if (book == null) {
             return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
@@ -110,12 +110,12 @@ public class FileController {
     // Put cover a book
     @PutMapping("/book/{book_id}")
     public ResponseEntity updateBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
-        Book book = bookRepository.findOne(bookId);
+        Book book = bookRepository.getOne(bookId);
         if (book == null) {
             return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
         
-        DBFile oldCover = dbFileRepository.findById(book.getCover().getId());
+        DBFile oldCover = dbFileRepository.getOne(book.getCover().getId());
         if (oldCover != null) {
             book.setCover(null);
             oldCover.setBook(null);
@@ -142,12 +142,12 @@ public class FileController {
     // Put photo a author
     @PutMapping("/author/{author_id}")
     public ResponseEntity updateAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {
-        Author author = authorRepository.findOne(authorId);
+        Author author = authorRepository.getOne(authorId);
         if (author == null) {
             return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
         
-        DBFile oldPhoto = dbFileRepository.findById(author.getPhoto().getId());
+        DBFile oldPhoto = dbFileRepository.getOne(author.getPhoto().getId());
         if (oldPhoto != null) {
             // Delete from repository
             author.setPhoto(null);
@@ -177,12 +177,12 @@ public class FileController {
     // Delete cover a book
     @DeleteMapping("/book/{book_id}")
     public ResponseEntity deleteBookCover(@PathVariable("book_id") Long bookId) {
-        Book book = bookRepository.findOne(bookId);
+        Book book = bookRepository.getOne(bookId);
         if (book == null) {
             return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
         
-        DBFile cover = dbFileRepository.findById(book.getCover().getId());
+        DBFile cover = dbFileRepository.getOne(book.getCover().getId());
         if (cover== null) {
             return new ResponseEntity(new ErrorResponse("This book dont have cover"), HttpStatus.CONFLICT);
         }
@@ -200,12 +200,12 @@ public class FileController {
     // Delete photo a author
     @DeleteMapping("/author/{author_id}")
     public ResponseEntity deleteAuthorPhoto(@PathVariable("author_id") Long authorId) {
-        Author author = authorRepository.findOne(authorId);
+        Author author = authorRepository.getOne(authorId);
         if (author == null) {
             return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
         
-        DBFile photo = dbFileRepository.findById(author.getPhoto().getId());
+        DBFile photo = dbFileRepository.getOne(author.getPhoto().getId());
         if (photo== null) {
             return new ResponseEntity(new ErrorResponse("This author dont have photo"), HttpStatus.CONFLICT);
         }
