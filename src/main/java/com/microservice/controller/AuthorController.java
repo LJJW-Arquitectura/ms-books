@@ -44,7 +44,7 @@ public class AuthorController {
     @GetMapping("/{author_id}")
     public ResponseEntity findByAuthorId(@PathVariable("author_id") Long authorId)
     {
-        Author author = authorRepository.findOne(authorId);
+        Author author = authorRepository.getOne(authorId);
         if (author == null) {
             return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found"), HttpStatus.NOT_FOUND);
         }
@@ -69,7 +69,7 @@ public class AuthorController {
     @ResponseBody
     public ResponseEntity findBooksOfAuthor(@PathVariable("author_id") Long authorId) 
     {
-        Author author = authorRepository.findOne(authorId);
+        Author author = authorRepository.getOne(authorId);
         if (author == null) {
             return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found"), HttpStatus.NOT_FOUND);
         }
@@ -89,7 +89,7 @@ public class AuthorController {
     @PutMapping("/{author_id}")
     public ResponseEntity updateAuthor(@PathVariable("author_id") Long authorId, @RequestBody Author authorObject)
     {
-        Author author = authorRepository.findOne(authorId);
+        Author author = authorRepository.getOne(authorId);
         if (author == null) {
             return new ResponseEntity(new ErrorResponse("Unable to upate. Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
@@ -106,13 +106,13 @@ public class AuthorController {
     @DeleteMapping("/{author_id}")
     public ResponseEntity deleteAuthor(@PathVariable("author_id") Long authorId)
     {
-        Author author = authorRepository.findOne(authorId);
+        Author author = authorRepository.getOne(authorId);
         if (author == null) {
             return new ResponseEntity(new ErrorResponse("Unable to delete.  Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
         }
         
         if (author.getBooks().isEmpty()) {
-            authorRepository.delete(authorId);
+            authorRepository.deleteById(authorId);
         } else {
             return new ResponseEntity(new ErrorResponse("There are books associated to this author"), HttpStatus.CONFLICT);
         }
