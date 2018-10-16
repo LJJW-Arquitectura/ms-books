@@ -41,7 +41,7 @@ public class GenreController {
     @ResponseBody
     public ResponseEntity findByGenreId(@PathVariable("genre_id") Long genreId)
     {
-        Genre genre = genreRepository.getOne(genreId);
+        Optional<Genre> genre = genreRepository.findById(genreId);
         if (genre == null) {
             return new ResponseEntity(new ErrorResponse("Genre with id " + genreId + " not found"), HttpStatus.NOT_FOUND);
         }
