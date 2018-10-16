@@ -25,4 +25,4 @@ services:
       MYSQL_USER: homestead
       MYSQL_PASSWORD: secret
     ports:
-      - "3306:3306"
+      - "3307:3307"
