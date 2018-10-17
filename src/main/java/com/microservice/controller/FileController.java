@@ -1,10 +1,8 @@
 package com.microservice.controller;
 
-import com.microservice.entity.Author;
 import com.microservice.entity.Book;
 import com.microservice.entity.DBFile;
 import com.microservice.response.UploadFileResponse;
-import com.microservice.repository.AuthorRepository;
 import com.microservice.repository.BookRepository;
 import com.microservice.repository.DBFileRepository;
 import com.microservice.response.ErrorResponse;
@@ -30,10 +28,7 @@ public class FileController {
 
     @Autowired
     private DBFileStorageService DBFileStorageService;
-    
-    @Autowired
-    private AuthorRepository authorRepository;
-    
+
     @Autowired
     private BookRepository bookRepository;
     
@@ -41,47 +36,21 @@ public class FileController {
     private DBFileRepository dbFileRepository;
     
     /*POST*/
-    // Post photo a auhtor
-    @PostMapping("/author/{author_id}")
-    public ResponseEntity uploadAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {       
-        Author author = authorRepository.getOne(authorId);
-        if (author == null) {
-            return new ResponseEntity(new ErrorResponse("Book with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
-        }
-        if (author.getPhoto() != null) {
-            return new ResponseEntity(new ErrorResponse("This author alredy has a photo"), HttpStatus.CONFLICT);
-        }
-        
-        DBFile authorPhoto = DBFileStorageService.storeFile(file);
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/books-ms/file/downloadFile/")
-                .path(authorPhoto.getId())
-                .toUriString();
-
-        author.setPhoto(authorPhoto);
-        authorPhoto.setAuthor(author);
-        authorRepository.save(author);
-        dbFileRepository.save(authorPhoto);
-
-        return new ResponseEntity(new UploadFileResponse(authorPhoto.getFileName(), fileDownloadUri, authorPhoto.getFileType(), authorPhoto.getFSize()), HttpStatus.CREATED);
-    }
-    
     // Post cover a book
     @PostMapping("/book/{book_id}")
     public ResponseEntity uploadBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
-        Book book = bookRepository.getOne(bookId);
-        if (book == null) {
+        if (!bookRepository.existsById(bookId)) {
             return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
+        Book book = bookRepository.getOne(bookId);
         if (book.getCover() != null) {
-            return new ResponseEntity(new ErrorResponse("This book alredy hass a cover"), HttpStatus.CONFLICT);
+            return new ResponseEntity(new ErrorResponse("This book alredy has a cover"), HttpStatus.CONFLICT);
         }
         
         DBFile bookCover = DBFileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/books-ms/file/downloadFile/")
+                .path("/books-ms/file/download/")
                 .path(bookCover.getId())
                 .toUriString();
         
@@ -95,26 +64,27 @@ public class FileController {
 
     /*GET*/
     // Get file
-    @GetMapping("/downloadFile/{fileId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
+    @GetMapping("/download/{file_id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable("file_id") String fileId) {
         // Load file from database
-        DBFile authorPhoto = DBFileStorageService.getFile(fileId);
+        
+        DBFile file = DBFileStorageService.getFile(fileId);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(authorPhoto.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + authorPhoto.getFileName() + "\"")
-                .body(new ByteArrayResource(authorPhoto.getData()));
+                .contentType(MediaType.parseMediaType(file.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
+                .body(new ByteArrayResource(file.getData()));
     }
     
     /*PUT*/
     // Put cover a book
     @PutMapping("/book/{book_id}")
     public ResponseEntity updateBookCover(@RequestParam("file") MultipartFile file, @PathVariable("book_id") Long bookId) {
-        Book book = bookRepository.getOne(bookId);
-        if (book == null) {
+        if (!bookRepository.existsById(bookId)) {
             return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
         
+        Book book = bookRepository.getOne(bookId);
         DBFile oldCover = dbFileRepository.getOne(book.getCover().getId());
         if (oldCover != null) {
             book.setCover(null);
@@ -127,7 +97,7 @@ public class FileController {
         DBFile bookCover = DBFileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/books-ms/file/downloadFile/")
+                .path("/books-ms/file/download/")
                 .path(bookCover.getId())
                 .toUriString();
         
@@ -138,54 +108,20 @@ public class FileController {
 
         return new ResponseEntity(new UploadFileResponse(bookCover.getFileName(), fileDownloadUri, bookCover.getFileType(), bookCover.getFSize()), HttpStatus.OK);
     }
-
-    // Put photo a author
-    @PutMapping("/author/{author_id}")
-    public ResponseEntity updateAuthorPhoto(@RequestParam("file") MultipartFile file, @PathVariable("author_id") Long authorId) {
-        Author author = authorRepository.getOne(authorId);
-        if (author == null) {
-            return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
-        }
-        
-        DBFile oldPhoto = dbFileRepository.getOne(author.getPhoto().getId());
-        if (oldPhoto != null) {
-            // Delete from repository
-            author.setPhoto(null);
-            oldPhoto.setAuthor(null);
-            authorRepository.save(author);
-            dbFileRepository.save(oldPhoto);
-            dbFileRepository.delete(oldPhoto);
-        }
-        
-        DBFile authorPhoto = DBFileStorageService.storeFile(file);
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/books-ms/file/downloadFile/")
-                .path(authorPhoto.getId())
-                .toUriString();
-        
-        author.setPhoto(authorPhoto);
-        authorPhoto.setAuthor(author);
-        authorRepository.save(author);
-        dbFileRepository.save(authorPhoto);
-
-        return new ResponseEntity(new UploadFileResponse(authorPhoto.getFileName(), fileDownloadUri, authorPhoto.getFileType(), authorPhoto.getFSize()), HttpStatus.OK);
-    }
-
     
     /*DELETE*/
     // Delete cover a book
     @DeleteMapping("/book/{book_id}")
     public ResponseEntity deleteBookCover(@PathVariable("book_id") Long bookId) {
-        Book book = bookRepository.getOne(bookId);
-        if (book == null) {
+        if (!bookRepository.existsById(bookId)) {
             return new ResponseEntity(new ErrorResponse("Book with id " + bookId + " not found."), HttpStatus.NOT_FOUND);
         }
+        Book book = bookRepository.getOne(bookId);
         
-        DBFile cover = dbFileRepository.getOne(book.getCover().getId());
-        if (cover== null) {
-            return new ResponseEntity(new ErrorResponse("This book dont have cover"), HttpStatus.CONFLICT);
+        if (book.getCover() == null) {
+            return new ResponseEntity(new ErrorResponse("This book don't has a cover"), HttpStatus.CONFLICT);
         }
+        DBFile cover = dbFileRepository.getOne(book.getCover().getId());
         
         // Delete from repository
         book.setCover(null);
@@ -194,30 +130,7 @@ public class FileController {
         dbFileRepository.save(cover);
         dbFileRepository.delete(cover);
         
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-    
-    // Delete photo a author
-    @DeleteMapping("/author/{author_id}")
-    public ResponseEntity deleteAuthorPhoto(@PathVariable("author_id") Long authorId) {
-        Author author = authorRepository.getOne(authorId);
-        if (author == null) {
-            return new ResponseEntity(new ErrorResponse("Author with id " + authorId + " not found."), HttpStatus.NOT_FOUND);
-        }
-        
-        DBFile photo = dbFileRepository.getOne(author.getPhoto().getId());
-        if (photo== null) {
-            return new ResponseEntity(new ErrorResponse("This author dont have photo"), HttpStatus.CONFLICT);
-        }
-        
-        // Delete from repository
-        author.setPhoto(null);
-        photo.setAuthor(null);
-        authorRepository.save(author);
-        dbFileRepository.save(photo);
-        dbFileRepository.delete(photo);
-        
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    
+       
 }

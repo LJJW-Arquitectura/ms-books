@@ -26,15 +26,6 @@ public class DBFile implements Serializable{
             CascadeType.PERSIST,
             CascadeType.MERGE
         },
-            mappedBy = "photo")
-    @JsonIgnore
-    private Author author;
-    
-    @OneToOne(fetch = FetchType.LAZY,
-        cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-        },
             mappedBy = "cover")
     @JsonIgnore
     private Book book;
@@ -68,14 +59,6 @@ public class DBFile implements Serializable{
         this.book = book;
     }
     
-    public Author getAuthor() {
-        return author;
-    }
-    
-    public void setAuthor(Author author) {    
-        this.author = author;
-    }
-
     public String getId() {
         return id;
     }
@@ -115,6 +98,5 @@ public class DBFile implements Serializable{
     public void setFSize(long fSize) {
         this.fSize = fSize;
     }
-    
     
 }

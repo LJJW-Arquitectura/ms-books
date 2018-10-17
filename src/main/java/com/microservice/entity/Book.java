@@ -3,7 +3,6 @@ package com.microservice.entity;
 import com.fasterxml.jackson.annotation.*;
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -20,28 +19,8 @@ public class Book implements Serializable{
     private int numPages;
     private String isbn;
     private String plot;
-
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-            })
-    @JoinTable(name = "book_authors",
-            joinColumns = { @JoinColumn(name = "book_id") },
-            inverseJoinColumns = { @JoinColumn(name = "author_id") })
-    @JsonIgnore
-    private Set<Author> authors = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
-            })
-    @JoinTable(name = "book_genres",
-            joinColumns = { @JoinColumn(name = "book_id") },
-            inverseJoinColumns = { @JoinColumn(name = "genre_id") })
-    @JsonIgnore
-    private Set<Genre> genres = new HashSet<>();
+    private String[] authors;
+    private String[] genres;
     
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, optional = true)
     @JoinColumn(name = "file_id", nullable = true)
@@ -52,12 +31,15 @@ public class Book implements Serializable{
     public Book() {
     }
 
-    public Book(String title, String publisher, int numPages, String isbn, String plot) {
+    public Book(Long id, String title, String publisher, int numPages, String isbn, String plot, String[] authors, String[] genres) {
+        this.id = id;
         this.title = title;
         this.publisher = publisher;
         this.numPages = numPages;
         this.isbn = isbn;
         this.plot = plot;
+        this.authors = authors;
+        this.genres = genres;
     }
 
     // Getters and setters  
@@ -67,22 +49,6 @@ public class Book implements Serializable{
 
     public void setCover(DBFile cover) {
         this.cover = cover;
-    }
-    
-    public Set<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(Set<Genre> genres) {    
-        this.genres = genres;
-    }
-
-    public Set<Author> getAuthors() {
-        return authors;
-    }
-        
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
     }
 
     public Long getId() {
@@ -101,20 +67,20 @@ public class Book implements Serializable{
         this.title = title;
     }
 
-    public int getNumPages() {
-        return numPages;
-    }
-
-    public void setNumPages(int numPages) {
-        this.numPages = numPages;
-    }
-
     public String getPublisher() {
         return publisher;
     }
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public int getNumPages() {
+        return numPages;
+    }
+
+    public void setNumPages(int numPages) {
+        this.numPages = numPages;
     }
 
     public String getIsbn() {
@@ -131,6 +97,22 @@ public class Book implements Serializable{
 
     public void setPlot(String plot) {
         this.plot = plot;
+    }
+
+    public String[] getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(String[] authors) {
+        this.authors = authors;
+    }
+
+    public String[] getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String[] genres) {
+        this.genres = genres;
     }
 
 }

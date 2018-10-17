@@ -31,6 +31,8 @@ paths:
       responses:
         '201':
           description: Created
+          schema:
+            $ref: '#/definitions/Book'
         '500':
           description: Internal Server Error
     get:
@@ -44,9 +46,27 @@ paths:
         '500':
           description: Internal Server Error
 
+  /books/title/{book_title}:
+    get:
+      summary: Returns books with the given title
+      operationId: findBookByTitle
+      parameters:
+        - name: book_title
+          in: path
+          description: The title of the book to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/BooksList'
+        '500':
+          description: Internal Server Error
+          
   /books/{book_id}:
     get:
-      summary: Returns a course with the given id
+      summary: Returns a book with the given id
       operationId: findBookById
       parameters:
         - name: book_id
@@ -82,6 +102,8 @@ paths:
       responses:
         '200':
           description: Ok
+          schema:
+            $ref: '#/definitions/Book'
         '404':
           description: Not Found
         '500':
@@ -97,367 +119,21 @@ paths:
           required: true
           type: number
       responses:
-        '200':
-          description: Ok
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  
-  /books/title/{book_title}:
-    get:
-      summary: Returns books with the given title
-      operationId: findBookByTitle
-      parameters:
-        - name: book_title
-          in: path
-          description: The title of the book to be returned
-          required: true
-          type: string
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/BooksList'
-        '500':
-          description: Internal Server Error
-  
-  /books/{book_id}/author/{author_id}:
-    post:
-      summary: Add a author to a book
-      operationId: addAuthorToBook
-      parameters:
-        - name: book_id
-          in: path
-          required: true
-          description: The id of the book
-          type: number
-        - name: author_id
-          in: path
-          required: true
-          description: The id of the author
-          type: number
-      responses:
-        '201':
-          description: Created
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server error
-
-            
-    delete:
-      summary: Remove a author of a book
-      operationId: removeAuthorOfBook
-      parameters:
-        - name: book_id
-          in: path
-          description: The id of the book
-          required: true
-          type: number
-        - name: author_id
-          in: path
-          required: true
-          description: The id of the author
-          type: number
-      responses:
-        '200':
-          description: Ok
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-            
-  /books/{book_id}/genre/{genre_id}:
-    post:
-      summary: Add a genre to a book
-      operationId: addGenreToBook
-      parameters:
-        - name: book_id
-          in: path
-          required: true
-          description: The id of the book
-          type: number
-        - name: genre_id
-          in: path
-          required: true
-          description: The id of the genre
-          type: number
-      responses:
-        '201':
-          description: Created
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-    
-    delete:
-      summary: Remove a genre of a book
-      operationId: deleteGenreOfBook
-      parameters:
-        - name: book_id
-          in: path
-          description: The id of the book
-          required: true
-          type: number
-        - name: genre_id
-          in: path
-          required: true
-          description: The id of the genre
-          type: number
-      responses:
-        '200':
-          description: Ok
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error'
-  
-  /books/{book_id}/authors:
-    get:
-      summary: Returns authors a book with given id
-      operationId: findAuthorsOfBook
-      parameters:
-        - name: book_id
-          in: path
-          description: The title of the book to be returned
-          required: true
-          type: number
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/AuthorsList'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  
-  /books/{book_id}/genres:
-    get:
-      summary: Returns genres a book with given id
-      operationId: findGenresOfBook
-      parameters:
-        - name: book_id
-          in: path
-          description: The title of the book to be returned
-          required: true
-          type: number
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/GenresList'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-
-  /authors:
-    post:
-      summary: Creates a new author
-      operationId: createAuthor
-      parameters:
-        - name: author
-          in: body
-          required: true
-          description: Author Object
-          schema:
-            $ref: '#/definitions/AuthorInput'
-      responses:
-        '201':
-          description: Created
-        '500':
-          description: Internal Server Error
-    get:
-      summary: Returns all authors
-      operationId: findAllAuthors
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/AuthorsList'
-        '500':
-          description: Internal Server Error
-
-  /authors/{author_id}:
-    get:
-      summary: Returns a author with the given id
-      operationId: findByAuthorId
-      parameters:
-        - name: author_id
-          in: path
-          description: The id of the author to be returned
-          required: true
-          type: number
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/Author'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-
-    put:
-      summary: Updates a author with the given id
-      operationId: updateAuthor
-      parameters:
-        - name: author_id
-          in: path
-          description: The id of the Author to be updated
-          required: true
-          type: number
-        - name: Author
-          in: body
-          required: true
-          description: Author Object
-          schema:
-            $ref: '#/definitions/AuthorInput'
-      responses:
         '204':
           description: No Content
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
-
-    delete:
-      summary: Deletes a author with the given id
-      operationId: deleteAuthor
-      parameters:
-        - name: author_id
-          in: path
-          description: The id of the author to be deleted
-          required: true
-          type: number
-      responses:
-        '200':
-          description: Ok
-        '404':
-          description: Not Found
-        '409':
-            description: Conflict
-        '500':
-          description: Internal Server Error
   
-  /authors/name/{author_name}:
-    get:
-      summary: Returns authors with the given name
-      operationId: findByAuthorName
+  /file/download/{file_id}:
+    get: 
+      summary: Download file with the given id
+      operationId: downloadFile
       parameters:
-        - name: author_name
+        - name: file_id
           in: path
-          description: The name of the authors to be returned
-          required: true
-          type: string
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/AuthorsList'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /authors/{author_id}/books:
-    get:
-      summary: Returns books of a author with given id
-      operationId: findBooksOfAuthor
-      parameters:
-        - name: author_id
-          in: path
-          description: The id of the author
-          required: true
-          type: number
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/BooksList'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-            
-  /genres:
-    post:
-      summary: Creates a new genre
-      operationId: createGenre
-      parameters:
-        - name: genre
-          in: body
-          required: true
-          description: Genre Object
-          schema:
-            $ref: '#/definitions/GenreInput'
-      responses:
-        '201':
-          description: Created
-        '500':
-          description: Internal Server Error
-    get:
-      summary: Returns all genres
-      operationId: findAllGenres
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/GenresList'
-        '500':
-          description: Internal Server Error
-
-  /genres/{genre_id}:
-    get:
-      summary: Returns a genre with the given id
-      operationId: findByGenreId
-      parameters:
-        - name: genre_id
-          in: path
-          description: The id of the genre to be returned
-          required: true
-          type: number
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/Genre'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-
-    put:
-      summary: Updates a genre with the given id
-      operationId: updateGenre
-      parameters:
-        - name: genre_id
-          in: path
-          description: The id of the Genre to be updated
-          required: true
-          type: number
-        - name: Genre
-          in: body
-          required: true
-          description: Genre Object
-          schema:
-            $ref: '#/definitions/GenreInput'
-      responses:
-        '204':
-          description: No Content
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-
-    delete:
-      summary: Deletes a genre with the given id
-      operationId: deleteGenre
-      parameters:
-        - name: genre_id
-          in: path
-          description: The id of the genre to be deleted
+          description: The id of the book
           required: true
           type: number
       responses:
@@ -465,53 +141,12 @@ paths:
           description: Ok
         '404':
           description: Not Found
-        '409':
-            description: Conflict
         '500':
           description: Internal Server Error
-  
-  /genres/name/{genre_name}:
-    get:
-      summary: Returns genres with the given name
-      operationId: findByGenreName
-      parameters:
-        - name: genre_name
-          in: path
-          description: The name of the genres to be returned
-          required: true
-          type: string
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/GenresList'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  /genres/{genre_id}/books:
-    get:
-      summary: Returns books of a genre with the given id
-      operationId: findBooksOfGenre
-      parameters:
-        - name: genre_id
-          in: path
-          description: The id of the genre
-          required: true
-          type: number
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/BooksList'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-
+          
   /file/book/{book_id}:
     post: 
-      summary: Uploads cover to a book with given id 
+      summary: Uploads cover of a book with given id 
       operationId: uploadBookCover
       parameters:
         - name: book_id
@@ -570,82 +205,12 @@ paths:
           required: true
           type: number
       responses:
-        '200':
-          description: Ok
+        '204':
+          description: No Content
         '404':
           description: Not Found
         '500':
           description: Internal Server Error
-
-  /file/author/{author_id}:
-    post: 
-      summary: Uploads photo to a author with given id 
-      operationId: uploadAuthorPhoto
-      parameters:
-        - name: author_id
-          in: path
-          description: The id of the author
-          required: true
-          type: number
-        - name: file
-          in: formData
-          description: photo to upload
-          required: true
-          type: file
-      responses:
-        '201':
-          description: Created
-          schema:
-            $ref: '#/definitions/File'
-        '404':
-          description: Not Found
-        '409':
-          description: Conflict
-        '500':
-          description: Internal Server Error
-  
-    put: 
-      summary: Updates photo of a author with given id 
-      operationId: updateAuthorPhoto
-      parameters:
-        - name: author_id
-          in: path
-          description: The id of the author
-          required: true
-          type: number
-        - name: file
-          in: formData
-          description: photo to upload
-          required: true
-          type: file
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/File'
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-  
-    delete: 
-      summary: Deletes photo of a author with given id 
-      operationId: deleteAuthorPhoto
-      parameters:
-        - name: author_id
-          in: path
-          description: The id of the author
-          required: true
-          type: number
-      responses:
-        '200':
-          description: Ok
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
-
-
           
 definitions:
 
@@ -678,6 +243,14 @@ definitions:
         type: string
       plot:
         type: string
+      authors:
+        type: array
+        items:
+          type: string
+      genres:
+        type: array
+        items:
+          type: string
       cover:
         $ref: '#/definitions/File'
       
@@ -694,6 +267,14 @@ definitions:
         type: string
       plot:
         type: string
+      authors:
+        type: array
+        items:
+          type: string
+      genres:
+        type: array
+        items:
+          type: string
 
   BooksList:
     type: object
@@ -704,66 +285,3 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Book'
-
-  # Author
-  Author:
-    type: object
-    properties:
-      id:
-        type: number
-      name:
-        type: string
-      description:
-        type: string
-      photo:
-        $ref: '#/definitions/File'
-      
-  AuthorInput:
-    type: object
-    properties:
-      name:
-        type: string
-      description:
-        type: string
-
-  AuthorsList:
-    type: object
-    required:
-      - list
-    properties:
-      list:
-        type: array
-        items:
-          $ref: '#/definitions/Author'
-          
-  # Genre
-  Genre:
-    type: object
-    properties:
-      id:
-        type: number
-      name:
-        type: string
-      description:
-        type: string
-      photo:
-        $ref: '#/definitions/File'
-      
-  GenreInput:
-    type: object
-    properties:
-      name:
-        type: string
-      description:
-        type: string
-
-  GenresList:
-    type: object
-    required:
-      - list
-    properties:
-      list:
-        type: array
-        items:
-          $ref: '#/definitions/Genre'
-          

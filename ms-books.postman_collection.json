@@ -1,0 +1,288 @@
+{
+	"info": {
+		"_postman_id": "a7952694-704c-494a-b418-c2fa0175b164",
+		"name": "ms-books",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "Create Book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Harry Potter\",\n    \"publisher\": \"librospublisher\",\n    \"numPages\": 21,\n    \"isbn\": \"1233891825\",\n    \"plot\": \"The history of a mage called harry potter\",\n    \"authors\": [\"JK Rowling\"],\n    \"genres\": [\"Fantasy\", \"Magic\"]\n}"
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/books",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/books",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/books/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book by Title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/books/title/Harry Potter",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"books",
+								"title",
+								"Harry Potter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Book",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Harry Potter\",\n    \"publisher\": \"False Publisher\",\n    \"numPages\": 1023,\n    \"isbn\": \"140330180127\",\n    \"plot\": \"The history of a mage called harry potter\",\n    \"authors\": [\"JK Rowling\"],\n    \"genres\": [\"Fantasy\", \"Magic\"]\n}"
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/books/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/books/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Download File",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/file/download/{file_id}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"file",
+								"download",
+								"{file_id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add cover book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/file/book/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"file",
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update cover book",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/file/book/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"file",
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove cover book",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}:3002/books-ms/file/book/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "3002",
+							"path": [
+								"books-ms",
+								"file",
+								"book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
