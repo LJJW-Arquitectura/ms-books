@@ -4,6 +4,9 @@ FROM openjdk:8-jdk-alpine
 # Add a volume pointing to /tmp
 VOLUME /tmp
 
+RUN mvn -v
+RUN mvn clean install -DskipTests
+
 # Make port 8080 available to the world outside this container
 EXPOSE 3002
 
@@ -14,4 +17,4 @@ ARG JAR_FILE=target/ms-books-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} ms-books.jar
 
 # Run the jar file 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/ms-books.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/ms-books.jar"] 
