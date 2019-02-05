@@ -1,9 +1,8 @@
-FROM java:8
-FROM maven:alpine
+# Start with a base image containing Java runtime
+FROM openjdk:8-jdk-alpine
 
-WORKDIR /app
-
-COPY . /app
+# Add a volume pointing to /tmp
+VOLUME /tmp
 
 RUN mvn -v
 RUN mvn clean install -DskipTests
@@ -11,5 +10,11 @@ RUN mvn clean install -DskipTests
 # Make port 8080 available to the world outside this container
 EXPOSE 3002
 
-ADD ./target/ms-books-0.0.1-SNAPSHOT.jar ms-books-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","ms-books-0.0.1-SNAPSHOT.jar"] 
+# The application's jar file
+ARG JAR_FILE=target/ms-books-0.0.1-SNAPSHOT.jar
+
+# Add the application's jar to the container
+ADD ${JAR_FILE} ms-books.jar
+
+# Run the jar file 
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/ms-books.jar"] 
