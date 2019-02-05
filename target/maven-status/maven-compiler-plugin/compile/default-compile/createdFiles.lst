@@ -1,0 +1,13 @@
+com\microservice\response\ErrorResponse.class
+com\microservice\controller\BookController.class
+com\microservice\entity\Book.class
+com\microservice\response\BookResponse.class
+com\microservice\entity\DBFile.class
+com\microservice\service\DBFileStorageService.class
+com\microservice\MsBooksApplication.class
+com\microservice\response\UploadFileResponse.class
+com\microservice\repository\DBFileRepository.class
+com\microservice\exception\FileStorageException.class
+com\microservice\exception\MyFileNotFoundException.class
+com\microservice\repository\BookRepository.class
+com\microservice\controller\FileController.class
